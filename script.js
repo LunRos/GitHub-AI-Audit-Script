@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitHub AI Audit Script
 // @namespace    https://github.com/
-// @version      14.0
+// @version      14.1
 // @description  Deep checks repo for AI presence. Displays a simple, unified red banner if any AI traces are found.
 // @match        https://github.com/*
 // @grant        GM_xmlhttpRequest
