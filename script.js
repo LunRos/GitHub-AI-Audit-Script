@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         GitHub AI Auditor
+// @name         GitHub AI Audit Script
 // @namespace    https://github.com/
 // @version      14.0
 // @description  Deep checks repo for AI presence. Displays a simple, unified red banner if any AI traces are found.
@@ -20,13 +20,13 @@
         { regex: /^claude\.md$/i, name: 'Claude Code' },
         { regex: /^\.clinerules/i, name: 'Cline' },
         { regex: /^\.windsurf(rules)?/i, name: 'Windsurf' },
- { regex: /^\.cursor(rules)?$/i, name: 'Cursor Rules' },
- { regex: /^\.cursorignore$/i, name: 'Cursor Ignore' },
- { regex: /^\.claude$/i, name: 'Claude Code Config' },
- { regex: /^copilot-instructions\.md$/i, name: 'GitHub Copilot' },
- { regex: /^\.aider(ignore|conf\.yml)?$/i, name: 'Aider' },
- { regex: /^\.continue/i, name: 'Continue.dev' },
- { regex: /^mcp\.json$/i, name: 'Model Context Protocol' }
+        { regex: /^\.cursor(rules)?$/i, name: 'Cursor Rules' },
+        { regex: /^\.cursorignore$/i, name: 'Cursor Ignore' },
+        { regex: /^\.claude$/i, name: 'Claude Code Config' },
+        { regex: /^copilot-instructions\.md$/i, name: 'GitHub Copilot' },
+        { regex: /^\.aider(ignore|conf\.yml)?$/i, name: 'Aider' },
+        { regex: /^\.continue/i, name: 'Continue.dev' },
+        { regex: /^mcp\.json$/i, name: 'Model Context Protocol' }
     ];
 
     let scannedRepo = '';
@@ -44,9 +44,9 @@
         scriptLogs.push(entry);
 
         if (isDebug) {
-            console.log(`%c[AI Auditor DEBUG]%c ${message}`, 'color: #9e9e9e;', 'color: inherit;');
+            console.log(`%c[GitHub AI Audit Script DEBUG]%c ${message}`, 'color: #9e9e9e;', 'color: inherit;');
         } else {
-            console.log(`%c[AI Auditor]%c ${message}`, 'color: #fb8c00; font-weight: bold;', 'color: inherit;');
+            console.log(`%c[GitHub AI Audit Script]%c ${message}`, 'color: #fb8c00; font-weight: bold;', 'color: inherit;');
         }
         updateLogModal();
     }
@@ -246,10 +246,10 @@
         // 2. Fire async DOM poller and background API fetches concurrently
         const [domContributors, apiContributors, contents, workflows, commits] = await Promise.all([
             pollDOMForBots(),
-                                                                                                   fetchAPI(`repos/${owner}/${repo}/contributors?per_page=100`),
-                                                                                                   fetchAPI(`repos/${owner}/${repo}/contents`),
-                                                                                                   fetchAPI(`repos/${owner}/${repo}/contents/.github/workflows`),
-                                                                                                   fetchAPI(`repos/${owner}/${repo}/commits?per_page=35`)
+            fetchAPI(`repos/${owner}/${repo}/contributors?per_page=100`),
+            fetchAPI(`repos/${owner}/${repo}/contents`),
+            fetchAPI(`repos/${owner}/${repo}/contents/.github/workflows`),
+            fetchAPI(`repos/${owner}/${repo}/commits?per_page=35`)
         ]);
 
         // Evaluate Polled DOM Results
@@ -349,7 +349,7 @@
                 reasons.push({
                     category: 'COMMITS',
                     title: 'AI Generation Signature',
-                    detail: `Found ${count} commit ${count === 1 ? 'message' : 'messages'} containing an LLM trailer. Examples: ${examples}${extra}.`
+                    detail: `Found ${count} commit ${count === 1 ? 'message' : 'messages'} containing an LLM credit. ex. ${examples}${extra}.`
                 });
             }
         }
